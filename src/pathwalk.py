@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # ########################################################################
 # Program: Pathwalk
-# Author: "Jason Drawdy (Buddha)"
+# Author: "Jason Drawdy"
 # Version: "1.0.0"
 # Date: 11/3/21 @ 3:00 AM
 # #########################################################################
@@ -20,10 +20,15 @@ import hashlib #? Allows us to generate a checksum for a file or binary data.
 import platform #? Allows the use of Python specific functions such as current version.
 import datetime #? Allows for timestamp generation used within the hash map file itself.
 from typing import Union #? Allows for type annotation which enhances readability of code.
+from logger import Logger
+from sentinel import Sentinel
+#from utils import TextUtils
 
 #? This is global information about the script/program itself.
 _version = "1.0.0"
 _version_name = "Pansophic"
+_sentinel = Sentinel(verbose=False)
+#_logger = Logger(__name__, write_output=False)
 _directory_log_path = f"./directories-{datetime.datetime.now().strftime('%Y-%m-%d')}.txt"
 _hashmap_log_path = f"./hashmap-{datetime.datetime.now().strftime('%Y-%m-%d')}.txt"
 _error_log_path = f"./maperrors-{datetime.datetime.now().strftime('%Y-%m-%d')}.txt"
@@ -245,7 +250,7 @@ class Program:
                     "======================================\n")
         info = [
             f'⇢ Version\t| Pathwalk (v{_version})[{_version_name}]',
-            f'⇢ Author\t| Jason Drawdy (Buddha)',
+            f'⇢ Author\t| Jason Drawdy',
             f'⇢ Platform\t| Python (v{platform.python_version()})',
             f'⇢ Spawned\t| {datetime.datetime.now()}',
         ]
@@ -372,30 +377,10 @@ class Program:
                     self._start_scanner()
         else: sys.exit(2)
 
-#! The following commented lines of code are for Lilith or anyone else to learn from.
-#? Below are some basic types for Python 3.
-# string = "Hello, World!" #* This is a literal string.
-# number = 100 #* This is an integer/int
-# decimal = 1.00 #* This is a floating point number; used for precision operations/money.
-# elements = ['red', 'blue', 'yellow'] #* Literally a list.
-# mapping = {
-#     'Age': 20,
-#     'Name': "Tester",
-#     'Color': "Green"
-# }
-
-#? Some more functions such as how to write to a file; i.e. like the above code.
-# with open("filename.txt", 'r') as string:
-#     print(type(string))
-#     print(string.read(1024^2))
-
-# string_literal = "Hello, World" #* This is a literal string.
-# print(type(string_literal))
-# print(string_literal)
-#print(type(string))
-
 #! Below is the start of the actual script.
 if __name__ == "__main__": #? Make sure that this is the main script file instead of a class or data file.
-    program = Program()
+    sentinel, program = Sentinel(), Program()
+    sentinel.authorized = True
+    sentinel.start_resolver()
     program.main()
 else: pass #? We only want to start the program if we explicitly called this file.
